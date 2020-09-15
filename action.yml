@@ -1,0 +1,42 @@
+# action.yml
+name: 'IBM Cloud Foundry Deploy'
+branding:
+  icon: 'award'  
+  color: 'yellow'
+description: 'Deploys an application to IBM cloud foundry seamlessly'
+inputs:
+  # Note:- Either EMAIL and PASSWORD or API_KEY needs to be password
+  EMAIL:  
+    description: 'Email of the User for Authentication'
+    required: false
+  PASSWORD:  
+    description: 'Password of the User for Authentication'
+    required: false
+  API_KEY:  
+    description: 'API Key for Authentication'
+    required: false
+  CF_API_ENDPOINT:
+    description: 'Cloud Foundry API Endpoint'
+    required: true
+  ORG: 
+    description: 'Cloud Foundry Org Name'
+    required: true
+  SPACE: 
+    description: 'Cloud Foundry Space Name for the specified ORG'
+    required: true
+  MANIFEST_FILE_PATH: 
+    description: 'Path of manifest.yml'
+    required: true
+    default: './manifest.yml'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.EMAIL }}
+    - ${{ inputs.PASSWORD }}
+    - ${{ inputs.API_KEY }}
+    - ${{ inputs.CF_API_ENDPOINT }}
+    - ${{ inputs.MANIFEST_FILE_PATH }}
+    - ${{ inputs.ORG }}
+    - ${{ inputs.SPACE }}
