@@ -73,21 +73,40 @@ echo "Initial Checks Successful"
 
 
 echo "Installing ibmcloud"
-curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+curl -fsSL https://clis.cloud.ibm.com/install/linux | sh > /dev/null
+
 echo "Installing cloud foundry"
 ibmcloud cf install -q
 
-if [[ -z $API_KEY ]]; 
-then
-    ibmcloud login -u $EMAIL -p $PASSWORD --no-region
-else
-    ibmcloud login --apikey $API_KEY --no-region
-fi
+echo "Authenticating"
+{
+    if [[ -z $API_KEY ]]; 
+    then
+        ibmcloud login -u $EMAIL -p $PASSWORD --no-region -q > /dev/null
+    else
+        ibmcloud login --apikey $API_KEY --no-region -q > /dev/null
+    fi
+} || {
+    echo "Wrong Auth Credentials"
+    exit 1
+}
+echo "Auth Success"
 
-
-ibmcloud target --cf-api $CF_API_ENDPOINT -o $ORG -s $SPACE 
+{
+    ibmcloud target --cf-api $CF_API_ENDPOINT -o $ORG -s $SPACE -q > /dev/null
+} || {
+    echo "Wrong CF_API_ENDPOINT or ORG or SPACE Credentials"
+    exit 1
+}
 
 cd $ROOT_PATH
 
-ibmcloud cf push
+{
+    echo "Starting deployment"
+    ibmcloud cf push > /dev/null
+} || {
+    echo "Deployment Failed"
+    exit 1
+}
 
+echo "Deployment Success"
