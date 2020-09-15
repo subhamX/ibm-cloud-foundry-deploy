@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/sh
 
 EMAIL=$1
 PASSWORD=$2
