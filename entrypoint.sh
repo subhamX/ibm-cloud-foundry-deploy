@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Namespacing input arguments given by the user
 EMAIL=$1
 PASSWORD=$2
 API_KEY=$3
@@ -8,12 +9,14 @@ MANIFEST_FILE_PATH=$5
 ORG=$6
 SPACE=$7
 
+# Converting the absolute path of the manifest.yml to relative path
 [[ $MANIFEST_FILE_PATH == ./* ]] || MANIFEST_FILE_PATH=./$MANIFEST_FILE_PATH
 
 ROOT_PATH=$(dirname $MANIFEST_FILE_PATH)
 
 echo "Performing Checks"
 
+# Checking if Manifest File exists at the given location
 if [[ ! -f $MANIFEST_FILE_PATH ]]
 then
     echo "manifest.yml doesn't exist at $MANIFEST_FILE_PATH"
@@ -21,7 +24,7 @@ then
     exit 125
 fi
 
-
+# Checking if ORG env variable is non empty
 if [[ -z $ORG ]]
 then
     echo "ORG Name not passed"
@@ -29,7 +32,7 @@ then
     exit 125
 fi
 
-
+# Checking if SPACE env variable is non empty
 if [[ -z $SPACE ]]
 then
     echo "SPACE Name not passed"
@@ -38,7 +41,7 @@ then
 fi
 
 
-
+# Checking if API_KEY or EMAIL & PASSWORD is provided
 if [[ (-z $EMAIL) ||  (-z $PASSWORD) ]] && [[ -z $API_KEY ]]
 then
     if [[ -z $API_KEY ]]; 
@@ -62,6 +65,7 @@ then
     exit 125
 fi
 
+# Checking CF_API_ENDPOINT is not NULL
 if [[ -z $CF_API_ENDPOINT ]]
 then
     echo "No cloud foundry API Endpoint found"
@@ -71,14 +75,17 @@ fi
 
 echo "Initial Checks Successful"
 
-
 echo "Installing ibmcloud"
+# Downloading IBMcloud CLI
 curl -fsSL https://clis.cloud.ibm.com/install/linux | sh > /dev/null
 
 echo "Installing cloud foundry"
+# Installing cloud foundry CLI
 ibmcloud cf install -q
 
 echo "Authenticating"
+
+# Authenticating with given cred
 {
     if [[ -z $API_KEY ]]; 
     then
@@ -92,6 +99,7 @@ echo "Authenticating"
 }
 echo "Auth Success"
 
+# Adding other metadata like CF_API_ENDPOINT, org name and space
 {
     ibmcloud target --cf-api $CF_API_ENDPOINT -o $ORG -s $SPACE -q > /dev/null
 } || {
@@ -99,8 +107,10 @@ echo "Auth Success"
     exit 1
 }
 
+# Changing the working dir to the manifest.yml directory
 cd $ROOT_PATH
 
+# Pushing all files and starting deployment process
 {
     echo "Starting deployment"
     ibmcloud cf push > /dev/null
@@ -109,4 +119,5 @@ cd $ROOT_PATH
     exit 1
 }
 
+# Deployment Successful
 echo "Deployment Success"
