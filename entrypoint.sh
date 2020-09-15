@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 EMAIL=$1
 PASSWORD=$2
@@ -7,7 +7,6 @@ CF_API_ENDPOINT=$4
 MANIFEST_FILE_PATH=$5
 ORG=$6
 SPACE=$7
-
 
 [[ $MANIFEST_FILE_PATH == ./* ]] || MANIFEST_FILE_PATH=./$MANIFEST_FILE_PATH
 
