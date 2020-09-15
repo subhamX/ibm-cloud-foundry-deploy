@@ -1,11 +1,11 @@
 # action.yml
 name: 'IBM Cloud Foundry Deploy'
 branding:
-  icon: 'award'  
-  color: 'yellow'
-description: 'Deploys an application to IBM cloud foundry seamlessly'
+  icon: 'terminal'  
+  color: 'white'
+description: '🚀 Deploys an application to IBM cloud foundry seamlessly'
 inputs:
-  # Note:- Either EMAIL and PASSWORD or API_KEY needs to be password
+  # Please note that you need to either add the IBM_API_KEY or USER_EMAIL and USER_PASSWORD.
   EMAIL:  
     description: 'Email of the User for Authentication'
     required: false
