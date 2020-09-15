@@ -49,6 +49,8 @@ Now copy the API KEY and make sure you store it safely. Please note that you won
 
 ## Example YAML Snippets
 
+Head over to this [repo](https://github.com/subhamX/fiboapp) to see action logs and workflow yml file in action. It hosts a simple NodeJS application and uses this action for seamless deployment. 
+
 ### Deploying NodeJS Application
 
 ```yaml
@@ -79,8 +81,10 @@ jobs:
         SPACE: ${{ secrets.SPACE }}
 ```
 
+**Note:** We are suppressing all major output logs as potentially it might reveal your IBM cloud email, Cloud Foundry application name, etc. In this process, some information like final deploy URL etc. is also getting ignored. We are working on adding more information to the logs, but safeguarding your minute credentials is our utmost priority. Deploy URL and other build information will be added in the next version, very soon! Meanwhile, you can access the deploy logs and additional information in the cloud foundry dashboard.
+
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Feel free to report bugs and suggest features. It will help us improve this project. 
+This project welcomes contributions and suggestions. Feel free to report bugs and suggest features. It will help us improve this project. ⚡⚡
 
