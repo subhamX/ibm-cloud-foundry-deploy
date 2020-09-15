@@ -2,7 +2,7 @@
 name: 'IBM Cloud Foundry Deploy'
 branding:
   icon: 'terminal'  
-  color: 'white'
+  color: 'gray-dark'
 description: '🚀 Deploys an application to IBM cloud foundry seamlessly'
 inputs:
   # Please note that you need to either add the IBM_API_KEY or USER_EMAIL and USER_PASSWORD.
