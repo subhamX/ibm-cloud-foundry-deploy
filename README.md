@@ -1,15 +1,21 @@
 # IBM Cloud Foundry Deploy
 
-The following Github Action allows developers to deploy 🚀 the application to `IBM cloud foundry` seamlessly. For more information on cloud foundry, please visit [here](https://www.ibm.com/cloud/cloud-foundry).
+A github action which allows developers to automate the deploy 🚀 process to `IBM cloud foundry`. 
+
+### What is Cloud Foundry?
+> Cloud Foundry is the industry-standard open source cloud application platform for developing and deploying enterprise cloud applications. Get started today!
+
+For more information on IBM cloud foundry, please visit [here](https://www.ibm.com/cloud/cloud-foundry).
 
 
 ## Pre-requisites
 * You need to have an IBM Cloud account and a cloud foundry instance.
-* You can create a IBM Cloud account [here](https://cloud.ibm.com/) and create a new cloud foundry instance [here](https://cloud.ibm.com/catalog/starters/cloud-foundry).
+* You can create a free IBM Cloud account [here](https://cloud.ibm.com/) and create a new cloud foundry instance [here](https://cloud.ibm.com/catalog/starters/cloud-foundry).
  
 ## Checklist 
 
-* Ensure that there exists a `manifest.yml` file in the root directory. For more information on App Manifests head over to [this link](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
+* This action allows you to deploy applications built on runtimes of **Java**, **Node.js**, **PHP**, **Python**, **Ruby**, **ASP.NET**, **Tomcat**, **Swift** and **Go** to Cloud Foundry. 
+  You need to define your deployment details like number of application instances to create, the amount of memory and disk quota to allocate, and other environment variables in the `manifest.yml` file. For more information on App Manifests head over to these links. [one](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html) and [two](https://cloud.ibm.com/docs/cloud-foundry?topic=cloud-foundry-deploy_apps).
 * We recommend using `.cfignore` and adding `.git/`, and other files, directories which you would like to ignore during the deployment.
 
 
@@ -47,11 +53,7 @@ Now copy the API KEY and make sure you store it safely. Please note that you won
 **Please note that you need to either add the IBM_API_KEY or USER_EMAIL and USER_PASSWORD. If you add both of them, then either of these two will be used for authentication.**
 
 
-## Example YAML Snippets
-
-Head over to this [repo](https://github.com/subhamX/fiboapp) to see action logs and workflow yml file in action. It hosts a simple NodeJS application and uses this action for seamless deployment. 
-
-### Deploying NodeJS Application
+## Example YAML Snippet
 
 ```yaml
 name: Deploy to IBM Cloud Foundry
@@ -63,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Deploy NodeJS
+    - name: Deploy MyApp
       uses: subhamx/ibm-cloud-foundry-deploy@master
       with:
         # For Users who have opted for Authentication using Email & Password
@@ -81,7 +83,11 @@ jobs:
         SPACE: ${{ secrets.SPACE }}
 ```
 
-**Note:** We are suppressing all major output logs as potentially it might reveal your IBM cloud email, Cloud Foundry application name, etc. In this process, some information like final deploy URL etc. is also getting ignored. We are working on adding more information to the logs, but safeguarding your minute credentials is our utmost priority. Deploy URL and other build information will be added in the next version, very soon! Meanwhile, you can access the deploy logs and additional information in the cloud foundry dashboard.
+
+Head over to this [repo](https://github.com/subhamX/fiboapp) which hosts a simple NodeJS application, and uses this action to deploy the application to `IBM Cloud` on every push to master branch.
+
+
+**Note:** We are suppressing all major logs as IBM CLI displays your IBM cloud email, org name, etc. during the deploy. In this process, some information like final deploy URL etc. is also getting ignored. IBM Cloud CLI generates these logs, and there isn't an option to filter them. We are working on adding more detailed information to the action logs after filtering out sensitive ones. This action will output the final Deploy URL, and more detailed build information in the next version, very soon! Meanwhile, you can access the deploy logs and additional information in the cloud foundry dashboard.
 
 
 ## Contributing
